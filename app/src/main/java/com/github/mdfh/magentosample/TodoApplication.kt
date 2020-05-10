@@ -15,8 +15,7 @@
  */
 
 package com.github.mdfh.magentosample;
-import com.github.mdfh.magentosample.BuildConfig
-import com.github.mdfh.magentosample.di.DaggerApplicationComponent
+import com.github.mdfh.magentosample.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber
@@ -27,7 +26,7 @@ import timber.log.Timber.DebugTree
  *
  * Also, sets up Timber in the DEBUG BuildConfig. Read Timber's documentation for production setups.
  */
-open class TodoApplication : DaggerApplication() {
+open class MagentoApplication : DaggerApplication() {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerApplicationComponent.factory().create(applicationContext)
     }

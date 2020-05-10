@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.mdfh.magentosample.di
+package com.github.mdfh.magentosample.di.module
 
 import android.content.Context
 import androidx.room.Room
+import com.github.mdfh.magentosample.data.AppDataRepository
+import com.github.mdfh.magentosample.data.DataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,7 +30,7 @@ import javax.inject.Singleton
 import kotlin.annotation.AnnotationRetention.RUNTIME
 
 
-@Module(includes = [])
+@Module
 object ApplicationModule {
 
     @Qualifier
@@ -74,13 +76,12 @@ object ApplicationModule {
     @JvmStatic
     @Singleton
     @Provides
+    fun provideDataBase(repo: AppDataRepository): DataRepository {
+        return repo;
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
     fun provideIoDispatcher() = Dispatchers.IO
 }
-
-/*@Module
-abstract class ApplicationModuleBinds {
-
-    @Singleton
-    @Binds
-    abstract fun bindRepository(repo: DefaultTasksRepository): TasksRepository
-}*/

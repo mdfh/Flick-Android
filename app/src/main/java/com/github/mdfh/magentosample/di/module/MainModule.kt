@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.github.mdfh.magentosample.di
+package com.github.mdfh.magentosample.di.module
 
 import androidx.lifecycle.ViewModel
-import com.example.android.architecture.blueprints.todoapp.di.ViewModelBuilder
-import com.example.android.architecture.blueprints.todoapp.di.ViewModelKey
+import com.github.mdfh.magentosample.di.ViewModelBuilder
+import com.github.mdfh.magentosample.di.ViewModelKey
 import com.github.mdfh.magentosample.ui.main.MainFragment
 import com.github.mdfh.magentosample.ui.main.MainViewModel
 import dagger.Binds

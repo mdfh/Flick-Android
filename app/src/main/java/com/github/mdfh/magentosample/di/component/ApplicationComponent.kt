@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.mdfh.magentosample.di
+package com.github.mdfh.magentosample.di.component
 
 import android.content.Context
-import com.example.android.architecture.blueprints.todoapp.TodoApplication
-import com.github.mdfh.magentosample.di.MainModule
+import com.github.mdfh.magentosample.MagentoApplication
+import com.github.mdfh.magentosample.di.module.ApplicationModule
+import com.github.mdfh.magentosample.di.module.MainModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -37,7 +38,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         MainModule::class
     ])
-interface ApplicationComponent : AndroidInjector<TodoApplication> {
+interface ApplicationComponent : AndroidInjector<MagentoApplication> {
 
     @Component.Factory
     interface Factory {
