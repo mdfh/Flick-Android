@@ -20,6 +20,11 @@ import android.content.Context
 import androidx.room.Room
 import com.github.mdfh.magentosample.data.AppDataRepository
 import com.github.mdfh.magentosample.data.DataRepository
+import com.github.mdfh.magentosample.data.pref.AppPrefRepository
+import com.github.mdfh.magentosample.data.pref.PrefRepository
+import com.github.mdfh.magentosample.data.remote.ApiRepository
+import com.github.mdfh.magentosample.data.remote.AppApiRepository
+import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -41,43 +46,32 @@ object ApplicationModule {
     @Retention(RUNTIME)
     annotation class TasksLocalDataSource
 
-    /*@JvmStatic
+    @JvmStatic
     @Singleton
-    @TasksRemoteDataSource
     @Provides
-    fun provideTasksRemoteDataSource(): TasksDataSource {
-        return TasksRemoteDataSource
-    }*/
-
-    /*@JvmStatic
-    @Singleton
-    @TasksLocalDataSource
-    @Provides
-    fun provideTasksLocalDataSource(
-        database: ToDoDatabase,
-        ioDispatcher: CoroutineDispatcher
-    ): TasksDataSource {
-        return TasksLocalDataSource(
-            database.taskDao(), ioDispatcher
-        )
+    fun provideDataRepository(repo: AppDataRepository): DataRepository {
+        return repo;
     }
 
     @JvmStatic
     @Singleton
     @Provides
-    fun provideDataBase(context: Context): ToDoDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            ToDoDatabase::class.java,
-            "Tasks.db"
-        ).build()
-    }*/
+    fun providePrefRepository(repo: AppPrefRepository): PrefRepository {
+        return repo;
+    }
 
     @JvmStatic
     @Singleton
     @Provides
-    fun provideDataBase(repo: AppDataRepository): DataRepository {
+    fun provideApiRepository(repo: AppApiRepository): ApiRepository {
         return repo;
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return Gson();
     }
 
     @JvmStatic

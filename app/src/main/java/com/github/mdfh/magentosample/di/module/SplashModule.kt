@@ -19,26 +19,26 @@ package com.github.mdfh.magentosample.di.module
 import androidx.lifecycle.ViewModel
 import com.github.mdfh.magentosample.di.ViewModelBuilder
 import com.github.mdfh.magentosample.di.ViewModelKey
-import com.github.mdfh.magentosample.ui.home.HomeFragment
-import com.github.mdfh.magentosample.ui.home.HomeViewModel
+import com.github.mdfh.magentosample.ui.splash.SplashFragment
+import com.github.mdfh.magentosample.ui.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 /**
- * Dagger module for the tasks list feature.
+ * Dagger module for the Statistics feature.
  */
 @Module
-abstract class MainModule {
+abstract class SplashModule {
 
     @ContributesAndroidInjector(modules = [
         ViewModelBuilder::class
-        ])
-    internal abstract fun tasksFragment(): HomeFragment
+    ])
+    internal abstract fun statisticsFragment(): SplashFragment
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindViewModel(viewmodel: HomeViewModel): ViewModel
+    @ViewModelKey(SplashViewModel::class)
+    abstract fun bindViewModel(viewmodel: SplashViewModel): ViewModel
 }

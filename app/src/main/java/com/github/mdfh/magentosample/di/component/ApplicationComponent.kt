@@ -20,6 +20,8 @@ import android.content.Context
 import com.github.mdfh.magentosample.MagentoApplication
 import com.github.mdfh.magentosample.di.module.ApplicationModule
 import com.github.mdfh.magentosample.di.module.MainModule
+import com.github.mdfh.magentosample.di.module.NetworkModule
+import com.github.mdfh.magentosample.di.module.SplashModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -36,7 +38,9 @@ import javax.inject.Singleton
     modules = [
         ApplicationModule::class,
         AndroidSupportInjectionModule::class,
-        MainModule::class
+        MainModule::class,
+        SplashModule::class,
+        NetworkModule::class
     ])
 interface ApplicationComponent : AndroidInjector<MagentoApplication> {
 
