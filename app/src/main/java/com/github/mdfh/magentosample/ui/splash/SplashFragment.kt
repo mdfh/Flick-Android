@@ -1,14 +1,13 @@
 package com.github.mdfh.magentosample.ui.splash
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.github.mdfh.magentosample.EventObserver
 import com.github.mdfh.magentosample.R
 import com.github.mdfh.magentosample.databinding.SplashFragmentBinding
 import dagger.android.support.DaggerFragment
@@ -33,12 +32,22 @@ class SplashFragment : DaggerFragment() {
         }
         // Set the lifecycle owner to the lifecycle of the view
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-        return viewDataBinding.root
+        return root
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        viewModel.initializedCommand.observe(viewLifecycleOwner, EventObserver {
+            val action = SplashFragmentDirections
+                .actionSplashFragmentToHomeFragment()
+
+            findNavController().navigate(action)
+        })
     }
 
 }

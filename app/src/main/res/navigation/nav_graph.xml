@@ -18,14 +18,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.github.mdfh.magentosample.ui.splash.SplashFragment"
         android:label="Splash Screen">
         <action
-            android:id="@+id/action_taskDetailFragment_to_addEditTaskFragment"
+            android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 
@@ -33,11 +33,8 @@
         android:id="@+id/homeFragment"
         android:name="com.github.mdfh.magentosample.ui.home.HomeFragment"
         android:label="@string/app_name">
-        <action
-            android:id="@+id/action_statisticsFragment_to_tasksFragment"
-            app:destination="@id/homeFragment"
-            />
     </fragment>
+
     <argument
         android:name="userMessage"
         android:defaultValue="0" />
