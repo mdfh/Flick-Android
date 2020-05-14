@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.github.mdfh.magentosample.ui.splash.SplashFragment"
+        android:name="com.github.mdfh.flick.ui.splash.SplashFragment"
         android:label="Splash Screen">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.github.mdfh.magentosample.ui.home.HomeFragment"
+        android:name="com.github.mdfh.flick.ui.home.HomeFragment"
         android:label="@string/app_name">
     </fragment>
 

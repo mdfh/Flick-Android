@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.github.mdfh.magentosample.ui.home.HomeViewModel" />
+            type="com.github.mdfh.flick.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

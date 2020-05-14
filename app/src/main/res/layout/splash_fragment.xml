@@ -10,7 +10,7 @@
 
         <variable
             name="viewmodel"
-            type="com.github.mdfh.magentosample.ui.splash.SplashViewModel" />
+            type="com.github.mdfh.flick.ui.splash.SplashViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
