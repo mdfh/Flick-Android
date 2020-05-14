@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.HomeFragmentBinding
-import com.github.mdfh.flick.databinding.SplashFragmentBinding
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.home_fragment.*
 import javax.inject.Inject
+
 
 class HomeFragment : DaggerFragment() {
 
@@ -18,6 +21,8 @@ class HomeFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    lateinit var homeAdapter : HomeAdapter
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
 
@@ -36,6 +41,18 @@ class HomeFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        homeAdapter = HomeAdapter(requireActivity());
+        rv_main.layoutManager = LinearLayoutManager(context)
+        rv_main.adapter = homeAdapter
+
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        viewModel.popularMovies.observe(viewLifecycleOwner, Observer {
+            homeAdapter.addItems(it)
+        })
     }
 
 }

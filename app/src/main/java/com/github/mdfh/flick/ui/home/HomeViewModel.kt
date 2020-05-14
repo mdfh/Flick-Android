@@ -4,12 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.mdfh.flick.data.Result
 import com.github.mdfh.flick.data.repository.MovieRepository
+import com.github.mdfh.flick.model.api.Movie
 import com.github.mdfh.flick.model.api.MovieList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.github.mdfh.flick.data.Result as Result;
 
 class HomeViewModel  @Inject constructor(
     private val repository: MovieRepository
@@ -19,15 +19,15 @@ class HomeViewModel  @Inject constructor(
         getPopularMovies()
     }
 
-    val post: MutableLiveData<MovieList> by lazy {
-        MutableLiveData<MovieList>()
+    val popularMovies: MutableLiveData<List<Movie>> by lazy {
+        MutableLiveData<List<Movie>>()
     }
 
-    fun getPopularMovies() {
+    private fun getPopularMovies() {
         viewModelScope.launch {
             val retrofitPost = repository.getPopularMovies()
             when (retrofitPost) {
-                is Result.Success -> { post.postValue(retrofitPost.data)}
+                is Result.Success -> { popularMovies.postValue(retrofitPost.data.results)}
                 is Result.Error -> {
                     Log.d("Error", "Error")
                 }
