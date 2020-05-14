@@ -17,7 +17,11 @@
 package com.github.mdfh.flick.data.remote
 
 import android.content.Context
+import com.github.mdfh.flick.data.Result
+import com.github.mdfh.flick.data.remote.services.MovieService
+import com.github.mdfh.flick.model.api.MovieList
 import com.google.gson.Gson
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,14 +30,45 @@ import javax.inject.Singleton
  */
 
 interface ApiRepository {
-
+   suspend fun getPopularMovies(): Result<MovieList>
 }
 
 @Singleton
 class AppApiRepository @Inject
 constructor(
     private val context : Context,
-    private val usersService: UsersService,
+    private val usersService: MovieService,
     private val gson: Gson
 ) : ApiRepository
-{}
+{
+    override suspend fun getPopularMovies(): Result<MovieList> {
+        return safeApiCall(call = { usersService.getPopularMovies() });
+    }
+
+    private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {
+        return try {
+            val myResp = call.invoke()
+            if (myResp.isSuccessful) {
+                Result.Success(myResp.body()!!)
+            } else {
+
+                /*
+                handle standard error codes
+                if (myResp.code() == 403){
+                    Log.i("responseCode","Authentication failed")
+                }
+                .
+                .
+                .
+                 */
+
+                Result.Error(Exception(myResp.errorBody()?.string() ?: "Something goes wrong"))
+            }
+
+        } catch (e: Exception) {
+            Result.Error(Exception(e.message ?: "Internet error runs"))
+        }
+    }
+
+
+}

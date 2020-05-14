@@ -16,8 +16,8 @@
 
 package com.github.mdfh.flick.di.module
 
-import com.github.mdfh.flick.data.AppDataRepository
-import com.github.mdfh.flick.data.DataRepository
+import com.github.mdfh.flick.data.repository.AppDataRepository
+import com.github.mdfh.flick.data.repository.DataRepository
 import com.github.mdfh.flick.data.pref.AppPrefRepository
 import com.github.mdfh.flick.data.pref.PrefRepository
 import com.github.mdfh.flick.data.remote.ApiRepository

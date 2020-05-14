@@ -1,4 +1,4 @@
-package com.github.mdfh.flick.data
+package com.github.mdfh.flick.data.repository
 
 import android.content.Context
 import com.github.mdfh.flick.data.pref.PrefRepository

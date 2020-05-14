@@ -18,10 +18,7 @@ package com.github.mdfh.flick.di.component
 
 import android.content.Context
 import com.github.mdfh.flick.MagentoApplication
-import com.github.mdfh.flick.di.module.ApplicationModule
-import com.github.mdfh.flick.di.module.MainModule
-import com.github.mdfh.flick.di.module.NetworkModule
-import com.github.mdfh.flick.di.module.SplashModule
+import com.github.mdfh.flick.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -40,7 +37,8 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         MainModule::class,
         SplashModule::class,
-        NetworkModule::class
+        NetworkModule::class,
+        RepositoryModule::class
     ])
 interface ApplicationComponent : AndroidInjector<MagentoApplication> {
 

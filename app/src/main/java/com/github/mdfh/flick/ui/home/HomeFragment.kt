@@ -24,8 +24,14 @@ class HomeFragment : DaggerFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+    ): View? {
+        val root = inflater.inflate(R.layout.home_fragment, container, false)
+        viewDataBinding = HomeFragmentBinding.bind(root).apply {
+            this.viewmodel = viewModel
+        }
+        // Set the lifecycle owner to the lifecycle of the view
+        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

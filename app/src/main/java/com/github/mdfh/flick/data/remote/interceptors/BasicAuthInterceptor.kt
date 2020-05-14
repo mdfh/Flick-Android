@@ -1,7 +1,9 @@
 package com.github.mdfh.flick.data.remote.interceptors
 
 import android.content.Context
+import android.util.Log
 import com.github.mdfh.flick.data.pref.PrefRepository
+import com.github.mdfh.flick.utils.Constants
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,22 +19,22 @@ constructor(private val context: Context, private val preferencesHelper: PrefRep
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        return chain.proceed(request)
-        /*Log.d(TAG, "Inside interceptor")
-        if (!NetworkUtils.isNetworkConnected(context)) {
+       /* val request = chain.request()
+        return chain.proceed(request)*/
+        Log.d(TAG, "Inside interceptor")
+        /*if (!NetworkUtils.isNetworkConnected(context)) {
             Log.d(TAG, "No internet, throwing exception")
             throw NoInternetException("No Internet")
-        }
-        val request = chain.request()
+        }*/
 
-        if(preferencesHelper.getToken() != null) {
-            var credentials = preferencesHelper.getToken();
-            val authenticatedRequest = request.newBuilder()
-                    .header("Authorization", "Bearer $credentials").build()
-            return chain.proceed(authenticatedRequest)
-        }
-        return chain.proceed(request)*/
+        var requestWithApiKey = chain.request().url().newBuilder().addQueryParameter("api_key", Constants.API_KEY).build()
+
+        val authenticatedRequest = chain.request().newBuilder()
+            .header("Authorization", "Bearer ${Constants.API_KEY}").build()
+
+        val request = chain.request().newBuilder().url(requestWithApiKey).header("Authorization", "Bearer ${Constants.API_KEY}").build()
+
+        return chain.proceed(request)
     }
 
     companion object {

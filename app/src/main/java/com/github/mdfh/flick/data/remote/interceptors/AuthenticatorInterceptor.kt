@@ -10,7 +10,6 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
@@ -21,7 +20,7 @@ class AuthenticatorInterceptor @Inject constructor(private val context: Context,
                                                    private val prefRepository: PrefRepository) : Authenticator {
 
     @Throws(IOException::class)
-    override fun authenticate(route: Route, response: Response): Request? {
+    override fun authenticate(route: Route?, response: Response): Request? {
         Log.d(TAG, "authenticate()")
 
         /*if (responseCount(response) >= 3) {
@@ -90,7 +89,6 @@ class AuthenticatorInterceptor @Inject constructor(private val context: Context,
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(getOkHttp())
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
     }
