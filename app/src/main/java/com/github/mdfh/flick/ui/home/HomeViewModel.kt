@@ -12,22 +12,47 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel  @Inject constructor(
-    private val repository: MovieRepository
+    private val movieRepository: MovieRepository
 ) : ViewModel() {
 
     init {
-        getPopularMovies()
+        init()
     }
 
     val popularMovies: MutableLiveData<List<Movie>> by lazy {
         MutableLiveData<List<Movie>>()
     }
 
-    private fun getPopularMovies() {
+    val topRatedMovies: MutableLiveData<List<Movie>> by lazy {
+        MutableLiveData<List<Movie>>()
+    }
+
+    val upcomingMovies: MutableLiveData<List<Movie>> by lazy {
+        MutableLiveData<List<Movie>>()
+    }
+
+    private fun init() {
         viewModelScope.launch {
-            val retrofitPost = repository.getPopularMovies()
-            when (retrofitPost) {
-                is Result.Success -> { popularMovies.postValue(retrofitPost.data.results)}
+            val popularResult = movieRepository.getPopularMovies()
+            val topRatedResult = movieRepository.getTopRatedMovies()
+            val upcomingResult = movieRepository.getUpcomingMovies()
+
+            when (popularResult) {
+                is Result.Success -> { popularMovies.postValue(popularResult.data.results)}
+                is Result.Error -> {
+                    Log.d("Error", "Error")
+                }
+            }
+
+            when (topRatedResult) {
+                is Result.Success -> { topRatedMovies.postValue(topRatedResult.data.results)}
+                is Result.Error -> {
+                    Log.d("Error", "Error")
+                }
+            }
+
+            when (upcomingResult) {
+                is Result.Success -> { upcomingMovies.postValue(upcomingResult.data.results)}
                 is Result.Error -> {
                     Log.d("Error", "Error")
                 }

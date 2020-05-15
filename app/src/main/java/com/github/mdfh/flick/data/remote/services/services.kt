@@ -12,4 +12,10 @@ interface TokenService
 interface MovieService {
     @GET(ApiEndPoint.ENDPOINT_POPULAR_MOVIES)
     suspend  fun getPopularMovies(): Response<MovieList>
+
+    @GET(ApiEndPoint.ENDPOINT_UPCOMING_MOVIES)
+    suspend  fun getUpcomingMovies(): Response<MovieList>
+
+    @GET(ApiEndPoint.ENDPOINT_TOP_RATED_MOVIES)
+    suspend  fun getTopRatedMovies(): Response<MovieList>
 }

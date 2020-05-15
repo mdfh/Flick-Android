@@ -31,6 +31,8 @@ import javax.inject.Singleton
 
 interface ApiRepository {
    suspend fun getPopularMovies(): Result<MovieList>
+   suspend fun getUpcomingMovies(): Result<MovieList>
+   suspend fun getTopRatedMovies(): Result<MovieList>
 }
 
 @Singleton
@@ -43,6 +45,14 @@ constructor(
 {
     override suspend fun getPopularMovies(): Result<MovieList> {
         return safeApiCall(call = { usersService.getPopularMovies() });
+    }
+
+    override suspend fun getUpcomingMovies(): Result<MovieList> {
+        return safeApiCall(call = { usersService.getUpcomingMovies() });
+    }
+
+    override suspend fun getTopRatedMovies(): Result<MovieList> {
+        return safeApiCall(call = { usersService.getTopRatedMovies() });
     }
 
     private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {

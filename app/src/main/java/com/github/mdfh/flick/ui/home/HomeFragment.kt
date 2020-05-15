@@ -22,7 +22,9 @@ class HomeFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var homeAdapter : HomeAdapter
+    lateinit var popularAdapter : HomeAdapter
+    lateinit var topRatedAdapter : HomeAdapter
+    lateinit var upcomingAdapter : HomeAdapter
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
 
@@ -42,16 +44,32 @@ class HomeFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        homeAdapter = HomeAdapter(requireActivity());
-        rv_main.layoutManager = LinearLayoutManager(context)
-        rv_main.adapter = homeAdapter
+        popularAdapter = HomeAdapter(requireActivity());
+        rv_popular.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_popular.adapter = popularAdapter
+
+        topRatedAdapter = HomeAdapter(requireActivity());
+        rv_top_rated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_top_rated.adapter = topRatedAdapter
+
+        upcomingAdapter = HomeAdapter(requireActivity());
+        rv_upcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_upcoming.adapter = upcomingAdapter
 
         setupNavigation()
     }
 
     private fun setupNavigation() {
         viewModel.popularMovies.observe(viewLifecycleOwner, Observer {
-            homeAdapter.addItems(it)
+            popularAdapter.addItems(it)
+        })
+
+        viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer {
+            upcomingAdapter.addItems(it)
+        })
+
+        viewModel.topRatedMovies.observe(viewLifecycleOwner, Observer {
+            topRatedAdapter.addItems(it)
         })
     }
 

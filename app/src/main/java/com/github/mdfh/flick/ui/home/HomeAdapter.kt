@@ -33,7 +33,6 @@ class HomeAdapter(var context: Activity) :
         val viewHolder =
             holder as RecyclerViewViewHolder
         viewHolder.txtView_title.setText(movie.title)
-        viewHolder.txtView_description.setText(movie.overview)
     }
 
     override fun getItemCount(): Int {
@@ -54,12 +53,10 @@ class HomeAdapter(var context: Activity) :
         RecyclerView.ViewHolder(itemView) {
         var imgView_icon: ImageView
         var txtView_title: TextView
-        var txtView_description: TextView
 
         init {
             imgView_icon = itemView.findViewById(R.id.imgView_icon)
             txtView_title = itemView.findViewById(R.id.txtView_title)
-            txtView_description = itemView.findViewById(R.id.txtView_description)
         }
     }
 }
