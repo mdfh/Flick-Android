@@ -8,14 +8,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppDataRepository @Inject
-constructor(private val mContext: Context,
-            private val mPreferencesHelper: PrefRepository,
-            private val mApiHelper: ApiRepository,
-            private val mGson: Gson
-) : DataRepository
-
-interface DataRepository
+class ConfigurationRepository @Inject
+constructor(private val mPreferencesHelper: PrefRepository,
+            private val mApiHelper: ApiRepository)
 {
-
+    suspend fun getConfiguration() = mApiHelper.getConfiguration()
 }

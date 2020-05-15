@@ -18,7 +18,9 @@ package com.github.mdfh.flick.data.remote
 
 import android.content.Context
 import com.github.mdfh.flick.data.Result
+import com.github.mdfh.flick.data.remote.services.ConfigurationService
 import com.github.mdfh.flick.data.remote.services.MovieService
+import com.github.mdfh.flick.model.api.Configuration
 import com.github.mdfh.flick.model.api.MovieList
 import com.google.gson.Gson
 import retrofit2.Response
@@ -33,26 +35,33 @@ interface ApiRepository {
    suspend fun getPopularMovies(): Result<MovieList>
    suspend fun getUpcomingMovies(): Result<MovieList>
    suspend fun getTopRatedMovies(): Result<MovieList>
+
+    suspend fun getConfiguration() : Result<Configuration>
 }
 
 @Singleton
 class AppApiRepository @Inject
 constructor(
     private val context : Context,
-    private val usersService: MovieService,
+    private val movieService: MovieService,
+    private val configurationService: ConfigurationService,
     private val gson: Gson
 ) : ApiRepository
 {
     override suspend fun getPopularMovies(): Result<MovieList> {
-        return safeApiCall(call = { usersService.getPopularMovies() });
+        return safeApiCall(call = { movieService.getPopularMovies() });
     }
 
     override suspend fun getUpcomingMovies(): Result<MovieList> {
-        return safeApiCall(call = { usersService.getUpcomingMovies() });
+        return safeApiCall(call = { movieService.getUpcomingMovies() });
     }
 
     override suspend fun getTopRatedMovies(): Result<MovieList> {
-        return safeApiCall(call = { usersService.getTopRatedMovies() });
+        return safeApiCall(call = { movieService.getTopRatedMovies() });
+    }
+
+    override suspend fun getConfiguration(): Result<Configuration> {
+        return safeApiCall ( call = { configurationService.getConfiguration() } );
     }
 
     private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {
