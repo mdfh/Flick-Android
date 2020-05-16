@@ -4,6 +4,7 @@ import android.content.Context
 import com.github.mdfh.flick.data.remote.interceptors.AuthenticatorInterceptor
 import com.github.mdfh.flick.BuildConfig
 import com.github.mdfh.flick.data.remote.interceptors.BasicAuthInterceptor
+import com.github.mdfh.flick.data.remote.services.ConfigurationService
 import com.github.mdfh.flick.data.remote.services.MovieService
 import com.google.gson.Gson
 import java.util.concurrent.TimeUnit
@@ -29,8 +30,6 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
@@ -39,6 +38,12 @@ class NetworkModule {
     @Provides
     internal fun provideUsersInterface(retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideConfigurationInterface(retrofit: Retrofit): ConfigurationService {
+        return retrofit.create(ConfigurationService::class.java)
     }
 
     @Provides

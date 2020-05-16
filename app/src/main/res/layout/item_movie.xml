@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="3dp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imgView_icon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_launcher_background" />
+    <data>
 
-    <TextView
-        android:id="@+id/txtView_title"
+        <import type="android.view.View" />
+
+        <variable
+            name="imageUrl"
+            type="String" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Title" />
+        android:orientation="vertical"
+        android:padding="3dp">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/imgView_icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:imageUrl="@{imageUrl}"
+            android:src="@drawable/ic_launcher_background" />
+
+    </FrameLayout>
+</layout>

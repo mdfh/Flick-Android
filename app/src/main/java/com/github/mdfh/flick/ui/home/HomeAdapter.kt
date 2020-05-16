@@ -9,30 +9,32 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mdfh.flick.R
+import com.github.mdfh.flick.databinding.ItemMovieBinding
 import com.github.mdfh.flick.model.api.Movie
+import com.github.mdfh.flick.utils.base.BaseViewHolder
 
 
 class HomeAdapter(var context: Activity) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<BaseViewHolder>() {
     var moviesList = ArrayList<Movie>()
 
     @NonNull
     override fun onCreateViewHolder(
         @NonNull parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
-        val rootView: View = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false)
-        return RecyclerViewViewHolder(rootView)
+    ): BaseViewHolder {
+
+        val itemViewBinding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context),
+            parent, false)
+
+        return ItemViewHolder(itemViewBinding)
     }
 
     override fun onBindViewHolder(
-        @NonNull holder: RecyclerView.ViewHolder,
+        @NonNull holder: BaseViewHolder,
         position: Int
     ) {
-        val movie: Movie = moviesList[position]
-        val viewHolder =
-            holder as RecyclerViewViewHolder
-        viewHolder.txtView_title.setText(movie.title)
+        holder.onBind(position)
     }
 
     override fun getItemCount(): Int {
@@ -49,14 +51,16 @@ class HomeAdapter(var context: Activity) :
         moviesList.clear()
     }
 
-    internal inner class RecyclerViewViewHolder(@NonNull itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        var imgView_icon: ImageView
-        var txtView_title: TextView
+    inner class ItemViewHolder(private val mBinding: ItemMovieBinding) : BaseViewHolder(mBinding.root)
+    {
+        override fun onBind(position: Int) {
+            mBinding.imageUrl = "https://image.tmdb.org/t/p/w500${moviesList[position].posterPath}"
 
-        init {
-            imgView_icon = itemView.findViewById(R.id.imgView_icon)
-            txtView_title = itemView.findViewById(R.id.txtView_title)
+            // Immediate Binding
+            // When a variable or observable changes, the binding will be scheduled to change before
+            // the next frame. There are times, however, when binding must be executed immediately.
+            // To force execution, use the executePendingBindings() method.
+            mBinding.executePendingBindings();
         }
     }
 }

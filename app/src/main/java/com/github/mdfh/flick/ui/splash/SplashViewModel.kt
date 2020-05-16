@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.mdfh.flick.Event
-import com.github.mdfh.flick.data.repository.AppDataRepository
+import com.github.mdfh.flick.data.repository.ConfigurationRepository
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
-    private val repository: AppDataRepository
+    private val repository: ConfigurationRepository
 ) : ViewModel() {
 
     private val _initializedCommand = MutableLiveData<Event<Unit>>()
