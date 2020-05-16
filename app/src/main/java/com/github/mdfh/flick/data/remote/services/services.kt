@@ -19,6 +19,9 @@ interface MovieService {
 
     @GET(ApiEndPoint.Movies.ENDPOINT_TOP_RATED_MOVIES)
     suspend  fun getTopRatedMovies(): Response<MovieList>
+
+    @GET(ApiEndPoint.Movies.ENDPOINT_NOW_PLAYING_MOVIES)
+    suspend  fun getNowPlayingMovies(): Response<MovieList>
 }
 
 interface ConfigurationService {

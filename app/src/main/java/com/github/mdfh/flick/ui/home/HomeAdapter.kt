@@ -10,11 +10,12 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.ItemMovieBinding
+import com.github.mdfh.flick.databinding.ItemMovieCarouselBinding
 import com.github.mdfh.flick.model.api.Movie
 import com.github.mdfh.flick.utils.base.BaseViewHolder
 
 
-class HomeAdapter(var context: Activity) :
+class HomeAdapter(var context: Activity, var isCarousel : Boolean = false) :
     RecyclerView.Adapter<BaseViewHolder>() {
     var moviesList = ArrayList<Movie>()
 
@@ -24,10 +25,21 @@ class HomeAdapter(var context: Activity) :
         viewType: Int
     ): BaseViewHolder {
 
-        val itemViewBinding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context),
-            parent, false)
+        if(isCarousel)
+        {
+            val itemViewBinding = ItemMovieCarouselBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
 
-        return ItemViewHolder(itemViewBinding)
+            return CarouselItemViewHolder(itemViewBinding)
+        }
+        else
+        {
+            val itemViewBinding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
+
+            return ItemViewHolder(itemViewBinding)
+        }
+
     }
 
     override fun onBindViewHolder(
@@ -36,6 +48,8 @@ class HomeAdapter(var context: Activity) :
     ) {
         holder.onBind(position)
     }
+
+
 
     override fun getItemCount(): Int {
         return moviesList.size
@@ -54,12 +68,15 @@ class HomeAdapter(var context: Activity) :
     inner class ItemViewHolder(private val mBinding: ItemMovieBinding) : BaseViewHolder(mBinding.root)
     {
         override fun onBind(position: Int) {
-            mBinding.imageUrl = "https://image.tmdb.org/t/p/w500${moviesList[position].posterPath}"
+            mBinding.imageUrl = "https://image.tmdb.org/t/p/w300${moviesList[position].posterPath}"
+            mBinding.executePendingBindings();
+        }
+    }
 
-            // Immediate Binding
-            // When a variable or observable changes, the binding will be scheduled to change before
-            // the next frame. There are times, however, when binding must be executed immediately.
-            // To force execution, use the executePendingBindings() method.
+    inner class CarouselItemViewHolder(private val mBinding: ItemMovieCarouselBinding) : BaseViewHolder(mBinding.root)
+    {
+        override fun onBind(position: Int) {
+            mBinding.imageUrl = "https://image.tmdb.org/t/p/w780${moviesList[position].backdropPath}"
             mBinding.executePendingBindings();
         }
     }

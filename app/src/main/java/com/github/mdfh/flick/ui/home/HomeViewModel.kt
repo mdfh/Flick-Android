@@ -31,11 +31,16 @@ class HomeViewModel  @Inject constructor(
         MutableLiveData<List<Movie>>()
     }
 
+    val nowPlaying: MutableLiveData<List<Movie>> by lazy {
+        MutableLiveData<List<Movie>>()
+    }
+
     private fun init() {
         viewModelScope.launch {
             val popularResult = movieRepository.getPopularMovies()
             val topRatedResult = movieRepository.getTopRatedMovies()
             val upcomingResult = movieRepository.getUpcomingMovies()
+            val nowPlayingResult = movieRepository.getNowPlayingMovies()
 
             when (popularResult) {
                 is Result.Success -> { popularMovies.postValue(popularResult.data.results)}
@@ -53,6 +58,13 @@ class HomeViewModel  @Inject constructor(
 
             when (upcomingResult) {
                 is Result.Success -> { upcomingMovies.postValue(upcomingResult.data.results)}
+                is Result.Error -> {
+                    Log.d("Error", "Error")
+                }
+            }
+
+            when (nowPlayingResult) {
+                is Result.Success -> { nowPlaying.postValue(nowPlayingResult.data.results)}
                 is Result.Error -> {
                     Log.d("Error", "Error")
                 }

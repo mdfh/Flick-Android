@@ -25,6 +25,7 @@ class HomeFragment : DaggerFragment() {
     lateinit var popularAdapter : HomeAdapter
     lateinit var topRatedAdapter : HomeAdapter
     lateinit var upcomingAdapter : HomeAdapter
+    lateinit var nowPlayingAdapter : HomeAdapter
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
 
@@ -56,6 +57,10 @@ class HomeFragment : DaggerFragment() {
         rv_upcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_upcoming.adapter = upcomingAdapter
 
+        nowPlayingAdapter = HomeAdapter(requireActivity(), isCarousel = true);
+        rv_now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_now_playing.adapter = nowPlayingAdapter
+
         setupNavigation()
     }
 
@@ -70,6 +75,10 @@ class HomeFragment : DaggerFragment() {
 
         viewModel.topRatedMovies.observe(viewLifecycleOwner, Observer {
             topRatedAdapter.addItems(it)
+        })
+
+        viewModel.nowPlaying.observe(viewLifecycleOwner, Observer {
+            nowPlayingAdapter.addItems(it)
         })
     }
 

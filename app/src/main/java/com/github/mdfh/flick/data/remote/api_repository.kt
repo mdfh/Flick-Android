@@ -35,6 +35,7 @@ interface ApiRepository {
    suspend fun getPopularMovies(): Result<MovieList>
    suspend fun getUpcomingMovies(): Result<MovieList>
    suspend fun getTopRatedMovies(): Result<MovieList>
+   suspend fun getNowPlayingMovies(): Result<MovieList>
 
     suspend fun getConfiguration() : Result<Configuration>
 }
@@ -58,6 +59,10 @@ constructor(
 
     override suspend fun getTopRatedMovies(): Result<MovieList> {
         return safeApiCall(call = { movieService.getTopRatedMovies() });
+    }
+
+    override suspend fun getNowPlayingMovies(): Result<MovieList> {
+        return safeApiCall ( call = { movieService.getNowPlayingMovies() });
     }
 
     override suspend fun getConfiguration(): Result<Configuration> {

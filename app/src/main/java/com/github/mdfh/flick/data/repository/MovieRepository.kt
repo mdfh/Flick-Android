@@ -15,4 +15,5 @@ constructor(private val mPreferencesHelper: PrefRepository,
     suspend fun getPopularMovies() = mApiHelper.getPopularMovies()
     suspend fun getTopRatedMovies() = mApiHelper.getTopRatedMovies()
     suspend fun getUpcomingMovies() = mApiHelper.getUpcomingMovies()
+    suspend fun getNowPlayingMovies() = mApiHelper.getUpcomingMovies()
 }
