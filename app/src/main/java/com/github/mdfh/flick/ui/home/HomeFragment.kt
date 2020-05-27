@@ -8,6 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.HomeFragmentBinding
 import dagger.android.support.DaggerFragment
@@ -22,10 +25,15 @@ class HomeFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var popularAdapter : HomeAdapter
-    lateinit var topRatedAdapter : HomeAdapter
-    lateinit var upcomingAdapter : HomeAdapter
-    lateinit var nowPlayingAdapter : HomeAdapter
+    lateinit var popularAdapter: HomeAdapter
+    lateinit var topRatedAdapter: HomeAdapter
+    lateinit var upcomingAdapter: HomeAdapter
+    lateinit var nowPlayingAdapter: HomeAdapter
+
+    lateinit var popularSkeleton: RecyclerViewSkeletonScreen
+    lateinit var topRatedSkeleton: RecyclerViewSkeletonScreen
+    lateinit var upComingSkeleton: RecyclerViewSkeletonScreen
+    lateinit var nowPlayingSkeleton: RecyclerViewSkeletonScreen
 
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
 
@@ -46,38 +54,71 @@ class HomeFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
 
         popularAdapter = HomeAdapter(requireActivity());
-        rv_popular.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_popular.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_popular.adapter = popularAdapter
+        popularSkeleton =
+            getSkeletonRecyclerView(rv_popular, popularAdapter, R.layout.item_skeleton_movie)
+
 
         topRatedAdapter = HomeAdapter(requireActivity());
-        rv_top_rated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_top_rated.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_top_rated.adapter = topRatedAdapter
+        topRatedSkeleton =
+            getSkeletonRecyclerView(rv_top_rated, topRatedAdapter, R.layout.item_skeleton_movie)
 
         upcomingAdapter = HomeAdapter(requireActivity());
-        rv_upcoming.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_upcoming.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_upcoming.adapter = upcomingAdapter
+        upComingSkeleton =
+            getSkeletonRecyclerView(rv_upcoming, upcomingAdapter, R.layout.item_skeleton_movie)
 
         nowPlayingAdapter = HomeAdapter(requireActivity(), isCarousel = true);
-        rv_now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_now_playing.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_now_playing.adapter = nowPlayingAdapter
+        nowPlayingSkeleton =
+            getSkeletonRecyclerView(rv_now_playing, nowPlayingAdapter, R.layout.item_skeleton_movie_carousel)
 
         setupNavigation()
     }
 
+    private fun getSkeletonRecyclerView(
+        recyclerView: RecyclerView,
+        adapter: HomeAdapter,
+        itemLayout: Int
+    ) =
+        Skeleton.bind(recyclerView)
+            .adapter(adapter)
+            .shimmer(true)
+            .angle(20)
+            .frozen(false)
+            .duration(1200)
+            .count(10)
+            .load(itemLayout)
+            .show(); //default count is 10
+
+
     private fun setupNavigation() {
         viewModel.popularMovies.observe(viewLifecycleOwner, Observer {
+            popularSkeleton.hide()
             popularAdapter.addItems(it)
         })
 
         viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer {
+            upComingSkeleton.hide()
             upcomingAdapter.addItems(it)
         })
 
         viewModel.topRatedMovies.observe(viewLifecycleOwner, Observer {
+            topRatedSkeleton.hide()
             topRatedAdapter.addItems(it)
         })
 
         viewModel.nowPlaying.observe(viewLifecycleOwner, Observer {
+            nowPlayingSkeleton.hide()
             nowPlayingAdapter.addItems(it)
         })
     }
