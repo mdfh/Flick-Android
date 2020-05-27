@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.github.mdfh.flick.EventObserver
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.MovieDetailFragmentBinding
 import dagger.android.support.DaggerFragment
@@ -44,7 +45,12 @@ class MovieDetailFragment : DaggerFragment() {
     }
 
     private fun setupNavigation() {
-
+        viewModel.movieInitializedCommand.observe(viewLifecycleOwner, EventObserver {
+            viewDataBinding.apply {
+                movie = it
+                executePendingBindings()
+            }
+        })
     }
 
 }
