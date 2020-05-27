@@ -4,10 +4,14 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mdfh.flick.data.Result
+import com.github.mdfh.flick.data.DataResult
 import com.github.mdfh.flick.data.repository.MovieRepository
 import com.github.mdfh.flick.model.api.Movie
 import com.github.mdfh.flick.model.api.MovieList
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,41 +39,22 @@ class HomeViewModel  @Inject constructor(
         MutableLiveData<List<Movie>>()
     }
 
+
     private fun init() {
-        viewModelScope.launch {
-            val popularResult = movieRepository.getPopularMovies()
-            val topRatedResult = movieRepository.getTopRatedMovies()
-            val upcomingResult = movieRepository.getUpcomingMovies()
-            val nowPlayingResult = movieRepository.getNowPlayingMovies()
+        // Collect the flow
 
-            when (popularResult) {
-                is Result.Success -> { popularMovies.postValue(popularResult.data.results)}
-                is Result.Error -> {
-                    Log.d("Error", "Error")
+        movieRepository.getMoviesList()
+            .map { value ->
+                when(value.first)
+                {
+                    MovieType.NOW_PLAYING -> nowPlaying.value = value.second.results
+                    MovieType.POPULAR -> popularMovies.value = value.second.results
+                    MovieType.TOP_RATED -> topRatedMovies.value = value.second.results
+                    MovieType.UPCOMING -> upcomingMovies.value = value.second.results
                 }
             }
-
-            when (topRatedResult) {
-                is Result.Success -> { topRatedMovies.postValue(topRatedResult.data.results)}
-                is Result.Error -> {
-                    Log.d("Error", "Error")
-                }
-            }
-
-            when (upcomingResult) {
-                is Result.Success -> { upcomingMovies.postValue(upcomingResult.data.results)}
-                is Result.Error -> {
-                    Log.d("Error", "Error")
-                }
-            }
-
-            when (nowPlayingResult) {
-                is Result.Success -> { nowPlaying.postValue(nowPlayingResult.data.results)}
-                is Result.Error -> {
-                    Log.d("Error", "Error")
-                }
-            }
-        }
+            .catch { throwable ->  Log.e("Error", "Error" , throwable)  }
+            .launchIn(viewModelScope)
 
     }
 }

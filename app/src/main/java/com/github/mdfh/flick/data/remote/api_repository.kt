@@ -17,7 +17,7 @@
 package com.github.mdfh.flick.data.remote
 
 import android.content.Context
-import com.github.mdfh.flick.data.Result
+import com.github.mdfh.flick.data.DataResult
 import com.github.mdfh.flick.data.remote.services.ConfigurationService
 import com.github.mdfh.flick.data.remote.services.MovieService
 import com.github.mdfh.flick.model.api.Configuration
@@ -32,12 +32,12 @@ import javax.inject.Singleton
  */
 
 interface ApiRepository {
-   suspend fun getPopularMovies(): Result<MovieList>
-   suspend fun getUpcomingMovies(): Result<MovieList>
-   suspend fun getTopRatedMovies(): Result<MovieList>
-   suspend fun getNowPlayingMovies(): Result<MovieList>
+   suspend fun getPopularMovies(): DataResult<MovieList>
+   suspend fun getUpcomingMovies(): DataResult<MovieList>
+   suspend fun getTopRatedMovies(): DataResult<MovieList>
+   suspend fun getNowPlayingMovies(): DataResult<MovieList>
 
-    suspend fun getConfiguration() : Result<Configuration>
+    suspend fun getConfiguration() : DataResult<Configuration>
 }
 
 @Singleton
@@ -49,31 +49,31 @@ constructor(
     private val gson: Gson
 ) : ApiRepository
 {
-    override suspend fun getPopularMovies(): Result<MovieList> {
+    override suspend fun getPopularMovies(): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getPopularMovies() });
     }
 
-    override suspend fun getUpcomingMovies(): Result<MovieList> {
+    override suspend fun getUpcomingMovies(): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getUpcomingMovies() });
     }
 
-    override suspend fun getTopRatedMovies(): Result<MovieList> {
+    override suspend fun getTopRatedMovies(): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getTopRatedMovies() });
     }
 
-    override suspend fun getNowPlayingMovies(): Result<MovieList> {
+    override suspend fun getNowPlayingMovies(): DataResult<MovieList> {
         return safeApiCall ( call = { movieService.getNowPlayingMovies() });
     }
 
-    override suspend fun getConfiguration(): Result<Configuration> {
+    override suspend fun getConfiguration(): DataResult<Configuration> {
         return safeApiCall ( call = { configurationService.getConfiguration() } );
     }
 
-    private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Result<T> {
+    private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): DataResult<T> {
         return try {
             val myResp = call.invoke()
             if (myResp.isSuccessful) {
-                Result.Success(myResp.body()!!)
+                DataResult.Success(myResp.body()!!)
             } else {
 
                 /*
@@ -86,11 +86,11 @@ constructor(
                 .
                  */
 
-                Result.Error(Exception(myResp.errorBody()?.string() ?: "Something goes wrong"))
+                DataResult.Error(Exception(myResp.errorBody()?.string() ?: "Something goes wrong"))
             }
 
         } catch (e: Exception) {
-            Result.Error(Exception(e.message ?: "Internet error runs"))
+            DataResult.Error(Exception(e.message ?: "Internet error runs"))
         }
     }
 
