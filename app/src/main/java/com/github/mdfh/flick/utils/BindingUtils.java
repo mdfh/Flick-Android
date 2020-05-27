@@ -19,8 +19,19 @@ public final class BindingUtils {
         // This class is not publicly instantiable
     }
 
-    @BindingAdapter(value = {"imageUrl"}, requireAll = false)
-    public static void setImageUrl(ImageView imageView, String url) {
+    @BindingAdapter(value = {"posterPath"}, requireAll = false)
+    public static void setMoviePosterPath(ImageView imageView, String path) {
+        final String url = "https://image.tmdb.org/t/p/w300" + path;
+        if (URLUtil.isValidUrl(url)) {
+            Picasso.get()
+                    .load(url)
+                    .into(imageView);
+        }
+    }
+
+    @BindingAdapter(value = {"backdropPath"}, requireAll = false)
+    public static void setMovieBackDropPath(ImageView imageView, String path) {
+        final String url = "https://image.tmdb.org/t/p/w780" + path;
         if (URLUtil.isValidUrl(url)) {
             Picasso.get()
                     .load(url)

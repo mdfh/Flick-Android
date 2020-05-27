@@ -8,8 +8,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="imageUrl"
-            type="String" />
+            name="movie"
+            type="com.github.mdfh.flick.model.api.Movie" />
+
+        <variable
+            name="viewmodel"
+            type="com.github.mdfh.flick.ui.home.HomeViewModel" />
 
     </data>
 
@@ -17,14 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="3dp">
+        android:padding="3dp"
+        android:onClick="@{() -> viewmodel.openMovie(movie)}">
 
         <ImageView
             android:id="@+id/imgView_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:imageUrl="@{imageUrl}"
-            android:src="@drawable/ic_launcher_background" />
+            app:backdropPath="@{movie.backdropPath}"
+            />
 
     </FrameLayout>
 </layout>

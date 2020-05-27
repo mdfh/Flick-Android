@@ -1,4 +1,4 @@
-package com.github.mdfh.flick.ui.splash
+package com.github.mdfh.flick.ui.moviedetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,30 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.github.mdfh.flick.EventObserver
+import androidx.navigation.fragment.navArgs
 import com.github.mdfh.flick.R
-import com.github.mdfh.flick.databinding.SplashFragmentBinding
+import com.github.mdfh.flick.databinding.MovieDetailFragmentBinding
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class SplashFragment : DaggerFragment() {
+class MovieDetailFragment : DaggerFragment() {
 
-    private lateinit var viewDataBinding: SplashFragmentBinding
+    private lateinit var viewDataBinding: MovieDetailFragmentBinding
+
+    private val args: MovieDetailFragmentArgs by navArgs()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<SplashViewModel> { viewModelFactory }
+    private val viewModel by viewModels<MovieDetailViewModel> { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.splash_fragment, container, false)
-        viewDataBinding = SplashFragmentBinding.bind(root).apply {
+        val root = inflater.inflate(R.layout.movie_detail_fragment, container, false)
+        viewDataBinding = MovieDetailFragmentBinding.bind(root).apply {
             this.viewmodel = viewModel
         }
+        viewModel.start(args.movie)
         // Set the lifecycle owner to the lifecycle of the view
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         return root
@@ -42,12 +44,7 @@ class SplashFragment : DaggerFragment() {
     }
 
     private fun setupNavigation() {
-        viewModel.initializedCommand.observe(viewLifecycleOwner, EventObserver {
-            val action = SplashFragmentDirections
-                .actionSplashFragmentToHomeFragment()
 
-            findNavController().navigate(action)
-        })
     }
 
 }

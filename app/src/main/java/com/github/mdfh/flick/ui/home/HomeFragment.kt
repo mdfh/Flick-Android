@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
+import com.github.mdfh.flick.EventObserver
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.HomeFragmentBinding
+import com.github.mdfh.flick.model.api.Movie
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.*
 import javax.inject.Inject
@@ -53,7 +56,7 @@ class HomeFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        popularAdapter = HomeAdapter(requireActivity());
+        popularAdapter = HomeAdapter(viewModel);
         rv_popular.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_popular.adapter = popularAdapter
@@ -61,21 +64,21 @@ class HomeFragment : DaggerFragment() {
             getSkeletonRecyclerView(rv_popular, popularAdapter, R.layout.item_skeleton_movie)
 
 
-        topRatedAdapter = HomeAdapter(requireActivity());
+        topRatedAdapter = HomeAdapter(viewModel);
         rv_top_rated.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_top_rated.adapter = topRatedAdapter
         topRatedSkeleton =
             getSkeletonRecyclerView(rv_top_rated, topRatedAdapter, R.layout.item_skeleton_movie)
 
-        upcomingAdapter = HomeAdapter(requireActivity());
+        upcomingAdapter = HomeAdapter(viewModel);
         rv_upcoming.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_upcoming.adapter = upcomingAdapter
         upComingSkeleton =
             getSkeletonRecyclerView(rv_upcoming, upcomingAdapter, R.layout.item_skeleton_movie)
 
-        nowPlayingAdapter = HomeAdapter(requireActivity(), isCarousel = true);
+        nowPlayingAdapter = HomeAdapter(viewModel, isCarousel = true);
         rv_now_playing.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_now_playing.adapter = nowPlayingAdapter
@@ -121,6 +124,15 @@ class HomeFragment : DaggerFragment() {
             nowPlayingSkeleton.hide()
             nowPlayingAdapter.addItems(it)
         })
+
+        viewModel.openMovieEvent.observe(viewLifecycleOwner, EventObserver {
+            openMovieDetail(it)
+        })
+    }
+
+    private fun openMovieDetail(movie: Movie) {
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(movie)
+        findNavController().navigate(action)
     }
 
 }

@@ -19,26 +19,28 @@ package com.github.mdfh.flick.di.module
 import androidx.lifecycle.ViewModel
 import com.github.mdfh.flick.di.ViewModelBuilder
 import com.github.mdfh.flick.di.ViewModelKey
-import com.github.mdfh.flick.ui.splash.SplashFragment
-import com.github.mdfh.flick.ui.splash.SplashViewModel
+import com.github.mdfh.flick.ui.home.HomeFragment
+import com.github.mdfh.flick.ui.home.HomeViewModel
+import com.github.mdfh.flick.ui.moviedetail.MovieDetailFragment
+import com.github.mdfh.flick.ui.moviedetail.MovieDetailViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 /**
- * Dagger module for the Statistics feature.
+ * Dagger module for the Home feature.
  */
 @Module
-abstract class SplashModule {
+abstract class MovieDetailModule {
 
     @ContributesAndroidInjector(modules = [
         ViewModelBuilder::class
     ])
-    internal abstract fun statisticsFragment(): SplashFragment
+    internal abstract fun movieDetailFragment(): MovieDetailFragment
 
     @Binds
     @IntoMap
-    @ViewModelKey(SplashViewModel::class)
-    abstract fun bindViewModel(viewmodel: SplashViewModel): ViewModel
+    @ViewModelKey(MovieDetailViewModel::class)
+    abstract fun bindMovieDetailViewModel(viewmodel: MovieDetailViewModel): ViewModel
 }
