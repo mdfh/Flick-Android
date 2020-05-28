@@ -128,10 +128,19 @@ class HomeFragment : DaggerFragment() {
         viewModel.openMovieEvent.observe(viewLifecycleOwner, EventObserver {
             openMovieDetail(it)
         })
+
+        viewModel.openMovieListEvent.observe(viewLifecycleOwner, EventObserver {
+            openMovieList(it)
+        })
     }
 
     private fun openMovieDetail(movie: Movie) {
         val action = HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(movie)
+        findNavController().navigate(action)
+    }
+
+    private fun openMovieList(movieType: MovieType) {
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieListFragment(movieType)
         findNavController().navigate(action)
     }
 

@@ -32,9 +32,9 @@ import javax.inject.Singleton
  */
 
 interface ApiRepository {
-   suspend fun getPopularMovies(): DataResult<MovieList>
-   suspend fun getUpcomingMovies(): DataResult<MovieList>
-   suspend fun getTopRatedMovies(): DataResult<MovieList>
+   suspend fun getPopularMovies(page : Int = 0): DataResult<MovieList>
+   suspend fun getUpcomingMovies(page : Int = 0): DataResult<MovieList>
+   suspend fun getTopRatedMovies(page : Int = 0): DataResult<MovieList>
    suspend fun getNowPlayingMovies(): DataResult<MovieList>
 
     suspend fun getConfiguration() : DataResult<Configuration>
@@ -49,15 +49,15 @@ constructor(
     private val gson: Gson
 ) : ApiRepository
 {
-    override suspend fun getPopularMovies(): DataResult<MovieList> {
+    override suspend fun getPopularMovies(page : Int): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getPopularMovies() });
     }
 
-    override suspend fun getUpcomingMovies(): DataResult<MovieList> {
+    override suspend fun getUpcomingMovies(page : Int): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getUpcomingMovies() });
     }
 
-    override suspend fun getTopRatedMovies(): DataResult<MovieList> {
+    override suspend fun getTopRatedMovies(page : Int): DataResult<MovieList> {
         return safeApiCall(call = { movieService.getTopRatedMovies() });
     }
 

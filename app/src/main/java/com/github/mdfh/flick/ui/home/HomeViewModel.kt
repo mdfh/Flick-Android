@@ -24,6 +24,9 @@ class HomeViewModel  @Inject constructor(
     private val _openMovieEvent = MutableLiveData<Event<Movie>>()
     val openMovieEvent: LiveData<Event<Movie>> = _openMovieEvent
 
+    private val _openMovieListEvent = MutableLiveData<Event<MovieType>>()
+    val openMovieListEvent: LiveData<Event<MovieType>> = _openMovieListEvent
+
     init {
         init()
     }
@@ -49,6 +52,13 @@ class HomeViewModel  @Inject constructor(
      */
     fun openMovie(movie: Movie) {
         _openMovieEvent.value = Event(movie)
+    }
+
+    /**
+     * Called by Data Binding.
+     */
+    fun openMovieList(movieType: MovieType) {
+        _openMovieListEvent.value = Event(movieType)
     }
 
 

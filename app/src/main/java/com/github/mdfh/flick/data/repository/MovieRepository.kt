@@ -51,4 +51,8 @@ constructor(private val mPreferencesHelper: PrefRepository,
             }
         }
     }.flowOn(Dispatchers.IO)
+
+    suspend fun getPopularMovies(page : Int = 0) = mApiHelper.getPopularMovies(page = page)
+    suspend fun getTopRatedMovies(page : Int = 0) = mApiHelper.getTopRatedMovies(page = page)
+    suspend fun getUpcomingMovies(page : Int = 0) = mApiHelper.getUpcomingMovies(page = page)
 }

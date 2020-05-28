@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2019 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +28,10 @@
             android:id="@+id/action_homeFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+
     </fragment>
 
     <fragment
@@ -37,8 +40,20 @@
         android:label="@string/app_name">
         <argument
             android:name="movie"
-            app:argType="com.github.mdfh.flick.model.api.Movie"
-             />
+            app:argType="com.github.mdfh.flick.model.api.Movie" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieListFragment"
+        android:name="com.github.mdfh.flick.ui.movielist.MovieListFragment"
+        android:label="@string/app_name">
+        <argument
+            android:name="movieType"
+            app:argType="com.github.mdfh.flick.ui.home.MovieType" />
+
+        <action
+            android:id="@+id/action_movieListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
 
     </fragment>
 </navigation>

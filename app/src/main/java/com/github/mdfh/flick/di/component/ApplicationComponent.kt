@@ -36,6 +36,7 @@ import javax.inject.Singleton
         ApplicationModule::class,
         AndroidSupportInjectionModule::class,
         HomeModule::class,
+        MovieListModule::class,
         MovieDetailModule::class,
         NetworkModule::class,
         RepositoryModule::class
