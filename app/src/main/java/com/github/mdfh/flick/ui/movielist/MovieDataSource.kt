@@ -18,15 +18,15 @@ import java.util.*
 
 class MovieSourceFactory(
     private val scope: CoroutineScope,
-    private val repository: MovieRepository,
-    private val movieType: MovieType
+    private val repository: MovieRepository
 ) : DataSource.Factory<Int, Movie>() {
 
+    private var movieType : MovieType? = null
     val mutableLiveData = MutableLiveData<MovieDataSource>()
 
     companion object {
         fun providePagingConfig(): PagedList.Config = PagedList.Config.Builder()
-            .setPageSize(10)
+            .setPageSize(20)
             .setEnablePlaceholders(false)
             .build()
     }
@@ -36,12 +36,17 @@ class MovieSourceFactory(
         mutableLiveData.postValue(source)
         return source
     }
+
+    fun setMovieType(movieType: MovieType)
+    {
+        this.movieType = movieType
+    }
 }
 
 class MovieDataSource(
     private val scope: CoroutineScope,
     private val repository: MovieRepository,
-    private val movieType: MovieType
+    private val movieType: MovieType?
 ) :
     PageKeyedDataSource<Int, Movie>() {
 
@@ -57,14 +62,10 @@ class MovieDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Movie>
     ) {
-        /*val movie = Movie(1f, 1, false, "abcd", 1, false, "abcd", "en",
-        "abcd", "abcd", "abcd", 1f, 1, "1234", Date(), 112233);
-        val list = ArrayList<Movie>()
-        for (x in 0..50)
-        list.add(Movie(1f, 1, false, "abcd", x.toLong(), false, "abcd", "en",
-            "abcd", "abcd", "abcd", 1f, 1, "1234", Date(), 112233))
-        callback.onResult(list, null, null)*/
         scope.launch {
+            if(movieType == null)
+                return@launch
+
             val result = getMovieList(1)
             when (result) {
                 is DataResult.Success -> {
@@ -84,7 +85,8 @@ class MovieDataSource(
         scope.launch {
             when (val result = getMovieList(params.key)) {
                 is DataResult.Success -> {
-                    callback.onResult(result.data.results, result.data.page + 1)
+                    val nextPage = if(result.data.page == result.data.totalPages) null else result.data.page + 1
+                    callback.onResult(result.data.results, nextPage)
                 }
                 is DataResult.Error -> {
                 }
@@ -107,8 +109,8 @@ class MovieDataSource(
     private suspend fun getMovieList(page: Int): DataResult<MovieList> {
         return when (movieType) {
             MovieType.POPULAR -> repository.getPopularMovies(page)
-            MovieType.TOP_RATED -> repository.getPopularMovies(page)
-            MovieType.UPCOMING -> repository.getPopularMovies(page)
+            MovieType.TOP_RATED -> repository.getTopRatedMovies(page)
+            MovieType.UPCOMING -> repository.getUpcomingMovies(page)
             else -> repository.getPopularMovies(page)
         }
     }

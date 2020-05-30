@@ -21,17 +21,15 @@ class MovieListViewModel  @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
+    private lateinit var factory: MovieSourceFactory
     private val _openMovieEvent = MutableLiveData<Event<Movie>>()
     val openMovieEvent: LiveData<Event<Movie>> = _openMovieEvent
 
     var movies  :LiveData<PagedList<Movie>>
 
     init {
-        movies  = initializedPagedListBuilder()
+        movies  = initializedPagedListBuilder().build()
     }
-
-
-
 
     /**
      * Called by Data Binding.
@@ -40,30 +38,24 @@ class MovieListViewModel  @Inject constructor(
         _openMovieEvent.value = Event(movie)
     }
 
-    /*private fun initializedPagedListBuilder():
+    private fun initializedPagedListBuilder():
             LivePagedListBuilder<Int, Movie> {
 
-        val factory = MovieSourceFactory(viewModelScope, movieRepository, MovieType.POPULAR)
-        return LivePagedListBuilder(factory, pagedListConfig())
-    }*/
-
-    private fun initializedPagedListBuilder():
-            LiveData<PagedList<Movie>> {
-
-        val factory = MovieSourceFactory(viewModelScope, movieRepository, MovieType.POPULAR)
-        return MovieSourceFactory(viewModelScope, movieRepository, MovieType.POPULAR).toLiveData(MovieSourceFactory.providePagingConfig())
+        factory = MovieSourceFactory(viewModelScope, movieRepository)
+        return LivePagedListBuilder(factory, MovieSourceFactory.providePagingConfig())
     }
 
-    fun start()
+    fun start(movieType: MovieType)
     {
-
+        factory.setMovieType(movieType)
+        movies.value?.dataSource?.invalidate()
     }
 
-    private fun pagedListConfig() = PagedList.Config.Builder()
+   /* private fun pagedListConfig() = PagedList.Config.Builder()
         .setInitialLoadSizeHint(5)
         .setEnablePlaceholders(false)
         .setPageSize(5 * 2)
-        .build()
+        .build()*/
 
 }
 
