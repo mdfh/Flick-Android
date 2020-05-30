@@ -9,6 +9,7 @@ class ApiEndPoint {
         const val ENDPOINT_POPULAR_MOVIES = BuildConfig.BASE_URL + "/3/movie/popular"
         const val ENDPOINT_UPCOMING_MOVIES = BuildConfig.BASE_URL + "/3/movie/upcoming"
         const val ENDPOINT_TOP_RATED_MOVIES = BuildConfig.BASE_URL + "/3/movie/top_rated"
+        const val ENDPOINT_NOW_PLAYING_MOVIES = BuildConfig.BASE_URL + "/3/movie/now_playing"
     }
 
     object Configuration

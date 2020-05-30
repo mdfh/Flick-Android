@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2019 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,24 +17,47 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
-
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.github.mdfh.flick.ui.splash.SplashFragment"
-        android:label="Splash Screen">
-        <action
-            android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.github.mdfh.flick.ui.home.HomeFragment"
         android:label="@string/app_name">
+
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+
     </fragment>
 
-    <argument
-        android:name="userMessage"
-        android:defaultValue="0" />
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.github.mdfh.flick.ui.moviedetail.MovieDetailFragment"
+        android:label="@string/app_name">
+        <argument
+            android:name="movie"
+            app:argType="com.github.mdfh.flick.model.api.Movie" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieListFragment"
+        android:name="com.github.mdfh.flick.ui.movielist.MovieListFragment"
+        android:label="{title}">
+        <argument
+            android:name="movieType"
+            app:argType="com.github.mdfh.flick.ui.home.MovieType" />
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
+
+        <action
+            android:id="@+id/action_movieListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+
+    </fragment>
 </navigation>

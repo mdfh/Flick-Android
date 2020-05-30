@@ -21,24 +21,28 @@ import com.github.mdfh.flick.di.ViewModelBuilder
 import com.github.mdfh.flick.di.ViewModelKey
 import com.github.mdfh.flick.ui.home.HomeFragment
 import com.github.mdfh.flick.ui.home.HomeViewModel
+import com.github.mdfh.flick.ui.moviedetail.MovieDetailFragment
+import com.github.mdfh.flick.ui.moviedetail.MovieDetailViewModel
+import com.github.mdfh.flick.ui.movielist.MovieListFragment
+import com.github.mdfh.flick.ui.movielist.MovieListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 /**
- * Dagger module for the tasks list feature.
+ * Dagger module for the Home feature.
  */
 @Module
-abstract class MainModule {
+abstract class MovieListModule {
 
     @ContributesAndroidInjector(modules = [
         ViewModelBuilder::class
-        ])
-    internal abstract fun tasksFragment(): HomeFragment
+    ])
+    internal abstract fun movieListFragment(): MovieListFragment
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindViewModel(viewmodel: HomeViewModel): ViewModel
+    @ViewModelKey(MovieListViewModel::class)
+    abstract fun bindMovieListViewModel(viewmodel: MovieListViewModel): ViewModel
 }

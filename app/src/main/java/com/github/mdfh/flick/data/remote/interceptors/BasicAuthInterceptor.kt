@@ -10,9 +10,6 @@ import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.Response
 
-/**
- * Created by Faraz on 2/21/2017.
- */
 @Singleton
 class BasicAuthInterceptor @Inject
 constructor(private val context: Context, private val preferencesHelper: PrefRepository) : Interceptor {

@@ -16,13 +16,13 @@
 
 package com.github.mdfh.flick.di.module
 
-import com.github.mdfh.flick.data.repository.AppDataRepository
-import com.github.mdfh.flick.data.repository.DataRepository
 import com.github.mdfh.flick.data.pref.AppPrefRepository
 import com.github.mdfh.flick.data.pref.PrefRepository
 import com.github.mdfh.flick.data.remote.ApiRepository
 import com.github.mdfh.flick.data.remote.AppApiRepository
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
@@ -42,12 +42,6 @@ object ApplicationModule {
     @Retention(RUNTIME)
     annotation class TasksLocalDataSource
 
-    @JvmStatic
-    @Singleton
-    @Provides
-    fun provideDataRepository(repo: AppDataRepository): DataRepository {
-        return repo;
-    }
 
     @JvmStatic
     @Singleton
@@ -67,7 +61,11 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideGson(): Gson {
-        return Gson();
+        val gson = GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .setDateFormat("yyyy-MM-dd")
+            .create()
+        return gson;
     }
 
     @JvmStatic

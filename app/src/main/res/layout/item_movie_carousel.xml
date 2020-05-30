@@ -18,7 +18,7 @@
     </data>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="3dp"
@@ -26,11 +26,10 @@
 
         <ImageView
             android:id="@+id/imgView_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="150dp"
-            android:minHeight="250dp"
-            app:posterPath="@{movie.posterPath}"
+            android:minHeight="200dp"
+            app:backdropPath="@{movie.backdropPath}"
             />
 
     </FrameLayout>
