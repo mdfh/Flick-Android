@@ -26,7 +26,7 @@ import timber.log.Timber.DebugTree
  *
  * Also, sets up Timber in the DEBUG BuildConfig. Read Timber's documentation for production setups.
  */
-open class MagentoApplication : DaggerApplication() {
+open class FlickApp : DaggerApplication() {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerApplicationComponent.factory().create(applicationContext)
     }

@@ -140,8 +140,19 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun openMovieList(movieType: MovieType) {
-        val action = HomeFragmentDirections.actionHomeFragmentToMovieListFragment(movieType)
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieListFragment(movieType, getMovieTypeName(movieType))
         findNavController().navigate(action)
+    }
+
+    private fun getMovieTypeName(movieType : MovieType) : String
+    {
+        return when(movieType)
+        {
+            MovieType.NOW_PLAYING -> getString(R.string.now_playing)
+            MovieType.POPULAR -> getString(R.string.popular)
+            MovieType.TOP_RATED -> getString(R.string.top_rated)
+            MovieType.UPCOMING -> getString(R.string.upcoming)
+        }
     }
 
 }

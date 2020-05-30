@@ -20,10 +20,6 @@ import android.content.Context
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Faraz on 07/07/17.
- */
-
 interface PrefRepository {
 
 }

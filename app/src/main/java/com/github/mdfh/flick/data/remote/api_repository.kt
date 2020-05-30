@@ -27,10 +27,6 @@ import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Faraz on 07/07/17.
- */
-
 interface ApiRepository {
    suspend fun getPopularMovies(page : Int = 1): DataResult<MovieList>
    suspend fun getUpcomingMovies(page : Int = 1): DataResult<MovieList>

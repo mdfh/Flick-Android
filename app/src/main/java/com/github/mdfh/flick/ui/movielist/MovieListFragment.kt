@@ -17,6 +17,7 @@ import com.github.mdfh.flick.EventObserver
 import com.github.mdfh.flick.R
 import com.github.mdfh.flick.databinding.MovieListFragmentBinding
 import com.github.mdfh.flick.model.api.Movie
+import com.github.mdfh.flick.ui.home.MovieType
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.movie_list_fragment.*
 import javax.inject.Inject

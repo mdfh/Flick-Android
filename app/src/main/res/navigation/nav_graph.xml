@@ -46,10 +46,14 @@
     <fragment
         android:id="@+id/movieListFragment"
         android:name="com.github.mdfh.flick.ui.movielist.MovieListFragment"
-        android:label="@string/app_name">
+        android:label="{title}">
         <argument
             android:name="movieType"
             app:argType="com.github.mdfh.flick.ui.home.MovieType" />
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
 
         <action
             android:id="@+id/action_movieListFragment_to_movieDetailFragment"
