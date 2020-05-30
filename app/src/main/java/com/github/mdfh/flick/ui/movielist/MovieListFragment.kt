@@ -47,7 +47,6 @@ class MovieListFragment : DaggerFragment() {
         }
         // Set the lifecycle owner to the lifecycle of the view
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-        viewModel.start(args.movieType)
         return root
     }
 
@@ -83,7 +82,7 @@ class MovieListFragment : DaggerFragment() {
     private fun setupNavigation() {
 
         viewModel.movies.observe(viewLifecycleOwner, Observer {
-            adapter.addItems(it)
+            adapter.submitList(it)
         })
 
         viewModel.openMovieEvent.observe(viewLifecycleOwner, EventObserver{

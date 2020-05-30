@@ -1,9 +1,12 @@
 package com.github.mdfh.flick.data.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.github.mdfh.flick.data.DataResult
 import com.github.mdfh.flick.data.pref.PrefRepository
 import com.github.mdfh.flick.data.remote.ApiRepository
+import com.github.mdfh.flick.model.api.Movie
 import com.github.mdfh.flick.model.api.MovieList
 import com.github.mdfh.flick.ui.home.MovieType
 import com.google.gson.Gson

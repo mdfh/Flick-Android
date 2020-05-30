@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +20,7 @@ import com.github.mdfh.flick.utils.base.BaseViewHolder
 
 
 class MovieListAdapter(var viewModel: MovieListViewModel) :
-    ListAdapter<Movie, BaseViewHolder>(MovieListDiffCallback()) {
-
-    var moviesList = ArrayList<Movie>()
+    PagedListAdapter<Movie, BaseViewHolder>(MovieListDiffCallback()) {
 
     @NonNull
     override fun onCreateViewHolder(
@@ -42,28 +41,12 @@ class MovieListAdapter(var viewModel: MovieListViewModel) :
         holder.onBind(position)
     }
 
-
-
-    override fun getItemCount(): Int {
-        return moviesList.size
-    }
-
-    fun addItems(filesList: List<Movie>) {
-        moviesList.clear()
-        moviesList.addAll(filesList)
-        notifyDataSetChanged()
-    }
-
-    fun clearItems() {
-        moviesList.clear()
-    }
-
     inner class ItemViewHolder(private val mBinding: ItemMovieListBinding) : BaseViewHolder(mBinding.root)
     {
         override fun onBind(position: Int) {
             mBinding.apply {
                 viewmodel = viewModel
-                movie = moviesList[position]
+                movie =  getItem(position)
                 executePendingBindings()
             }
         }
@@ -82,6 +65,6 @@ class MovieListDiffCallback : DiffUtil.ItemCallback<Movie>() {
     }
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return oldItem == newItem
+        return oldItem.title == newItem.title
     }
 }

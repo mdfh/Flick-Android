@@ -32,9 +32,9 @@ import javax.inject.Singleton
  */
 
 interface ApiRepository {
-   suspend fun getPopularMovies(page : Int = 0): DataResult<MovieList>
-   suspend fun getUpcomingMovies(page : Int = 0): DataResult<MovieList>
-   suspend fun getTopRatedMovies(page : Int = 0): DataResult<MovieList>
+   suspend fun getPopularMovies(page : Int = 1): DataResult<MovieList>
+   suspend fun getUpcomingMovies(page : Int = 1): DataResult<MovieList>
+   suspend fun getTopRatedMovies(page : Int = 1): DataResult<MovieList>
    suspend fun getNowPlayingMovies(): DataResult<MovieList>
 
     suspend fun getConfiguration() : DataResult<Configuration>
@@ -50,15 +50,15 @@ constructor(
 ) : ApiRepository
 {
     override suspend fun getPopularMovies(page : Int): DataResult<MovieList> {
-        return safeApiCall(call = { movieService.getPopularMovies() });
+        return safeApiCall(call = { movieService.getPopularMovies(page) });
     }
 
     override suspend fun getUpcomingMovies(page : Int): DataResult<MovieList> {
-        return safeApiCall(call = { movieService.getUpcomingMovies() });
+        return safeApiCall(call = { movieService.getUpcomingMovies(page) });
     }
 
     override suspend fun getTopRatedMovies(page : Int): DataResult<MovieList> {
-        return safeApiCall(call = { movieService.getTopRatedMovies() });
+        return safeApiCall(call = { movieService.getTopRatedMovies(page) });
     }
 
     override suspend fun getNowPlayingMovies(): DataResult<MovieList> {
